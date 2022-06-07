@@ -6,6 +6,34 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  uuid        String    @id @default(uuid())
+  email       String    @unique
+  name        String
+  password    String
+  photo       String?
+  description String?
+  contacts    Contact[]
+
+  dateCriation DateTime @default(now())
+
+  @@map("tb_user")
+}
+
+model Contact {
+  uuid String @id @default(uuid())
+
+  user_sender    User?  @relation(fields: [fk_user_sender], references: [uuid])
+  fk_user_sender String
+
+  user_receiver    User?  @relation(fields: [fk_user_receiver], references: [uuid])
+  fk_user_receiver String
+
+  dateCriation DateTime @default(now())
+
+  @@map("tb_contact")
 }
