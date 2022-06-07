@@ -11,29 +11,55 @@ datasource db {
 }
 
 model User {
-  uuid        String    @id @default(uuid())
-  email       String    @unique
-  name        String
-  password    String
-  photo       String?
-  description String?
-  contacts    Contact[]
+  uuid          String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  password      String
+  photo         String?
+  description   String?
+  date_criation DateTime @default(now())
 
-  dateCriation DateTime @default(now())
+  chats    UserOnChat[]
+  contacts UserOnContact[]
 
   @@map("tb_user")
 }
 
-model Contact {
+model Chat {
   uuid String @id @default(uuid())
+  text String
 
-  user_sender    User?  @relation(fields: [fk_user_sender], references: [uuid])
-  fk_user_sender String
+  users   UserOnChat[]
+  send_at DateTime     @default(now())
 
-  user_receiver    User?  @relation(fields: [fk_user_receiver], references: [uuid])
-  fk_user_receiver String
+  @@map("tb_chat")
+}
 
-  dateCriation DateTime @default(now())
+model UserOnChat {
+  user    User?  @relation(fields: [fk_user], references: [uuid])
+  fk_user String
 
-  @@map("tb_contact")
+  chat    Chat?  @relation(fields: [fk_chat], references: [uuid])
+  fk_chat String
+
+  assignedAt DateTime @default(now())
+  @@id([fk_user, fk_chat])
+}
+
+model Contact {
+  uuid          String   @id @default(uuid())
+  date_criation DateTime @default(now())
+
+  users UserOnContact[]
+}
+
+model UserOnContact {
+  user    User?  @relation(fields: [fk_user], references: [uuid])
+  fk_user String
+
+  contact    Contact? @relation(fields: [fk_contact], references: [uuid])
+  fk_contact String
+
+  assignedAt DateTime @default(now())
+  @@id([fk_user, fk_contact])
 }
