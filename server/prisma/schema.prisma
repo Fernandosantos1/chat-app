@@ -42,7 +42,7 @@ model UserOnChat {
   chat    Chat?  @relation(fields: [fk_chat], references: [uuid])
   fk_chat String
 
-  is_who_sent Boolean
+  is_who_sent Boolean @default(false)
   assignedAt  DateTime @default(now())
   @@id([fk_user, fk_chat])
 }

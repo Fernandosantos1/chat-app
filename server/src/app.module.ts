@@ -4,9 +4,13 @@ import { UserController } from './modules/user/user.controller';
 import { UserModule } from './modules/user/user.module';
 import { UserRepository } from './modules/user/user.respository';
 import { UserService } from './modules/user/user.service';
+import { ChatModule } from './modules/chat/chat.module';
+import { ChatRepository } from './modules/chat/chat.repository';
+import { ChatService } from './modules/chat/chat.service';
+import { ChatController } from './modules/chat/chat.controller';
 @Module({
-  imports: [UserModule],
-  controllers: [UserController],
-  providers: [PrismaService, UserService, UserRepository],
+  imports: [UserModule, ChatModule],
+  controllers: [UserController,ChatController],
+  providers: [PrismaService, UserService, UserRepository,ChatRepository,ChatService],
 })
 export class AppModule {}
