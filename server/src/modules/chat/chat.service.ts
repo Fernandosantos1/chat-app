@@ -1,15 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { ChatMapper } from './chat.mapper';
 import { ChatRepository } from './chat.repository';
-import { chatDto } from './dto/chat.dto';
+import { chatCreateDto, chatDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
-  constructor(private repository: ChatRepository) {}
-  async create(data: chatDto, userSentUuid: string, userReceiveUuid: string) {
+  constructor(
+    private repository: ChatRepository,
+    private chatMapper: ChatMapper,
+  ) {}
+  async create(data: chatCreateDto) {
+    let newChat = this.chatMapper.chatMap(data);
+
     return await this.repository.chatCreate(
-      data,
-      userSentUuid,
-      userReceiveUuid,
+      newChat,
+      data.userSentUuid,
+      data.userReceiveUuid,
     );
   }
 

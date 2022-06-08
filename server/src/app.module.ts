@@ -8,9 +8,17 @@ import { ChatModule } from './modules/chat/chat.module';
 import { ChatRepository } from './modules/chat/chat.repository';
 import { ChatService } from './modules/chat/chat.service';
 import { ChatController } from './modules/chat/chat.controller';
+import { ChatMapper } from './modules/chat/chat.mapper';
 @Module({
   imports: [UserModule, ChatModule],
-  controllers: [UserController,ChatController],
-  providers: [PrismaService, UserService, UserRepository,ChatRepository,ChatService],
+  controllers: [UserController, ChatController],
+  providers: [
+    PrismaService,
+    UserService,
+    UserRepository,
+    ChatRepository,
+    ChatService,
+    ChatMapper,
+  ],
 })
 export class AppModule {}

@@ -10,24 +10,15 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ChatService } from './chat.service';
-import { chatDto } from './dto/chat.dto';
+import { chatCreateDto, chatDto } from './dto/chat.dto';
 
 @Controller('chats')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
-  @Post(':userSentUuid/:userReceiveUuid')
-  async create(
-    @Res() res: Response,
-    @Body() data: chatDto,
-    @Param('userSentUuid') userSentUuid: string,
-    @Param('userReceiveUuid') userReceiveUuid: string,
-  ) {
-    let chat = await this.chatService.create(
-      data,
-      userSentUuid,
-      userReceiveUuid,
-    );
+  @Post()
+  async create(@Res() res: Response, @Body() data: chatCreateDto) {
+    let chat = await this.chatService.create(data);
     return chat ? res.status(201).json(chat) : res.status(403).send();
   }
 
