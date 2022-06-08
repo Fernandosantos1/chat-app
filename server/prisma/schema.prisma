@@ -42,7 +42,8 @@ model UserOnChat {
   chat    Chat?  @relation(fields: [fk_chat], references: [uuid])
   fk_chat String
 
-  assignedAt DateTime @default(now())
+  is_who_sent Boolean
+  assignedAt  DateTime @default(now())
   @@id([fk_user, fk_chat])
 }
 
@@ -60,6 +61,7 @@ model UserOnContact {
   contact    Contact? @relation(fields: [fk_contact], references: [uuid])
   fk_contact String
 
-  assignedAt DateTime @default(now())
+  is_who_added Boolean
+  assignedAt   DateTime @default(now())
   @@id([fk_user, fk_contact])
 }
