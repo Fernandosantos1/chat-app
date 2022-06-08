@@ -27,12 +27,14 @@ export class UserController {
   @Post()
   async create(@Res() res: Response, @Body() createUserDto: UserDto) {
     let user = await this.userService.create(createUserDto);
+    
     return user ? res.status(201).json(user) : res.status(403).send();
   }
 
   @Get()
   async findAll(@Res() res: Response) {
     let users = await this.userService.findAll();
+
     return users.length > 0
       ? res.status(200).json(users)
       : res.status(204).send();
@@ -41,6 +43,7 @@ export class UserController {
   @Get(':uuid')
   async findOne(@Res() res: Response, @Param('uuid') uuid: string) {
     let user = await this.userService.findOne(uuid);
+
     return user ? res.status(200).json(user) : res.status(404).send();
   }
 
@@ -51,12 +54,14 @@ export class UserController {
     @Body() updateUserDto: UserDto,
   ) {
     let user = await this.userService.update(uuid, updateUserDto);
+
     return user ? res.status(200).json(user) : res.status(404).send();
   }
 
   @Delete(':uuid')
   async remove(@Res() res: Response, @Param('uuid') uuid: string) {
     let user = await this.userService.remove(uuid);
+
     return user ? res.status(200).json(user) : res.status(404).send();
   }
 }
