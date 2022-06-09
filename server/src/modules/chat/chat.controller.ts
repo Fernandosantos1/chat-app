@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ChatService } from './chat.service';
-import { chatCreateDto, chatDto } from './dto/chat.dto';
+import { chatCreateDto, chatDto, chatFindDto } from './dto/chat.dto';
 
 @Controller('chats')
 export class ChatController {
@@ -23,13 +23,8 @@ export class ChatController {
   }
 
   @Get()
-  findAll() {
-    return this.chatService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chatService.findOne(+id);
+  async findOne(@Body() data: chatFindDto) {
+    return await this.chatService.findOne(data);
   }
 
   // @Patch(':id')

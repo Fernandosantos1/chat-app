@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ChatMapper } from './chat.mapper';
 import { ChatRepository } from './chat.repository';
-import { chatCreateDto, chatDto } from './dto/chat.dto';
+import { chatCreateDto, chatDto, chatFindDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
@@ -23,8 +23,8 @@ export class ChatService {
     return `This action returns all chat`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
+  async findOne({ userReceiveUuid, userSentUuid }: chatFindDto) {
+    return await this.repository.chatFind(userSentUuid, userReceiveUuid);
   }
 
   // update(id: number, updateChatDto: UpdateChatDto) {

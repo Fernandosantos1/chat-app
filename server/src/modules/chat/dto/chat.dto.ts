@@ -16,3 +16,8 @@ export class chatCreateDto {
   userSentUuid: string;
   userReceiveUuid: string;
 }
+
+export class chatFindDto {
+  userSentUuid: string;
+  userReceiveUuid: string;
+}

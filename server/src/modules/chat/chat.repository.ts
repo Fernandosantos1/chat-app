@@ -4,7 +4,6 @@ import { UserRepository } from '../user/user.respository';
 import { chatDto } from './dto/chat.dto';
 
 @Injectable()
-
 export class ChatRepository {
   constructor(
     private prisma: PrismaService,
@@ -46,7 +45,6 @@ export class ChatRepository {
       where: {
         uuid: chat.uuid,
       },
-
       select: {
         text: true,
         send_at: true,
@@ -64,4 +62,92 @@ export class ChatRepository {
       },
     });
   }
+
+  async chatFind(userSentUuid: string, userReceiveUuid: string) {
+    let chatList = [];
+
+    let listSent = await this.prisma.userOnChat.findMany({
+      where: {
+        fk_user: userSentUuid,
+      },
+      include: {
+        chat: true,
+      },
+      orderBy: {
+        assignedAt: 'asc',
+      },
+    });
+
+    let listReceive = await this.prisma.userOnChat.findMany({
+      where: {
+        fk_user: userReceiveUuid,
+      },
+      include: {
+        chat: true,
+      },
+      orderBy: {
+        assignedAt: 'asc',
+      },
+    });
+    listSent.map(valueSent => {
+      listReceive.map(valueReceive => {
+        valueReceive.fk_chat == valueSent.fk_chat && chatList.push(valueSent);
+      });
+    });
+
+    return chatList;
+  }
 }
+
+// {
+//   include: {
+//     users: {
+//       where: {
+//         AND: [{ fk_user: userSentUuid }, { fk_user: userReceiveUuid }],
+//       },
+//       select: { chat: true },
+//     },
+//   },
+// }
+
+// {
+//   select: {
+//     users: {
+//       where: {
+//         AND: [{ fk_user: userSentUuid },{fk_user:userSentUuid}],
+//       },
+//     },
+//   },
+// }
+
+// {
+//   where: {
+//     users: {
+//       every: {
+//         AND: [
+//           {
+//             fk_user: userSentUuid,
+//           },
+//           {
+//             fk_user: userReceiveUuid,
+//           },
+//         ],
+//       },
+//     },
+//   },
+//   select: {
+//     text: true,
+//     send_at: true,
+//     users: {
+//       select: {
+//         is_who_sent: true,
+//         user: {
+//           select: {
+//             name: true,
+//             uuid: true,
+//           },
+//         },
+//       },
+//     },
+//   },
+// }
