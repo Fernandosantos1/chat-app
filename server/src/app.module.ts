@@ -9,8 +9,10 @@ import { ChatRepository } from './modules/chat/chat.repository';
 import { ChatService } from './modules/chat/chat.service';
 import { ChatController } from './modules/chat/chat.controller';
 import { ChatMapper } from './modules/chat/chat.mapper';
+import { ChatSocketModule } from './modules/chat-socket/chat-socket.module';
+
 @Module({
-  imports: [UserModule, ChatModule],
+  imports: [UserModule, ChatModule, ChatSocketModule,],
   controllers: [UserController, ChatController],
   providers: [
     PrismaService,

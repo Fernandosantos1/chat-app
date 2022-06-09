@@ -25,6 +25,8 @@
     "@nestjs/core": "^8.4.6",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-socket.io": "^8.4.6",
+    "@nestjs/websockets": "^8.4.6",
     "@prisma/client": "^3.16.0-dev.19",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
