@@ -9,10 +9,14 @@ import { ChatRepository } from './modules/chat/chat.repository';
 import { ChatService } from './modules/chat/chat.service';
 import { ChatController } from './modules/chat/chat.controller';
 import { ChatMapper } from './modules/chat/chat.mapper';
-import { ChatSocketModule } from './modules/chat-socket/chat-socket.module';
+import { MessageModule } from './modules/message/message.module';
+import { MessageGateway } from './modules/message/message.gateway';
+import { MessageMapper } from './modules/message/message.mapper';
+import { MessageRepository } from './modules/message/message.repository';
+import { MessageService } from './modules/message/message.service';
 
 @Module({
-  imports: [UserModule, ChatModule, ChatSocketModule,],
+  imports: [UserModule, ChatModule, MessageModule],
   controllers: [UserController, ChatController],
   providers: [
     PrismaService,
@@ -21,6 +25,10 @@ import { ChatSocketModule } from './modules/chat-socket/chat-socket.module';
     ChatRepository,
     ChatService,
     ChatMapper,
+    MessageGateway,
+    MessageMapper,
+    MessageRepository,
+    MessageService,
   ],
 })
 export class AppModule {}
